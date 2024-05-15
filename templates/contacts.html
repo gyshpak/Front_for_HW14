@@ -3,14 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacts</title>
+    <title>Contact List</title>
 </head>
 <body>
-    <h1>Contacts</h1>
-    <ul>
-        {% for contact in contacts %}
-            <li>{{ contact.name }} - {{ contact.email }}</li>
-        {% endfor %}
-    </ul>
+    <h1>Contact List</h1>
+    
+    <form action="/contacts" method="get">
+        <label for="limit">Limit:</label>
+        <input type="number" id="limit" name="limit" value="10" min="1" max="100">
+        <br>
+        <label for="offset">Offset:</label>
+        <input type="number" id="offset" name="offset" value="0" min="0">
+        <br>
+        <button type="submit">Get Contacts</button>
+    </form>
+
+    <!-- Display Contacts -->
+    {% if contacts %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Birthday</th>
+                    <th>Avatar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contact in contacts %}
+                    <tr>
+                        <td>{{ contact.id }}</td>
+                        <td>{{ contact.name }}</td>
+                        <td>{{ contact.email }}</td>
+                        <td>{{ contact.phone }}</td>
+                        <td>{{ contact.birthday }}</td>
+                        <td>{{ contact.avatar }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
 </body>
 </html>
