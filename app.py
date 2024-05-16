@@ -48,9 +48,11 @@ async def signup_user(
         try:
             response = await client.post(f"{base_url}/auth/signup", json=data)
             response.raise_for_status()  # Перевірка статусу відповіді
-            return {"message": "User registered successfully", "data": response.json()}
+            return templates.TemplateResponse("registration_success.html", {"request": request, "data": response.json()})
+            # return {"message": "User registered successfully", "data": response.json()}
         except httpx.HTTPStatusError as e:
-            raise Exception(f"Registration failed: {e}")
+            return templates.TemplateResponse("registration_failure.html", {"request": request})
+            # raise Exception(f"Registration failed: {e}")
 
 
 @app.get("/login", response_class=HTMLResponse)
@@ -85,7 +87,10 @@ async def login_user(
                 "contacts.html", {"request": request, "contacts": contacts}
             )
         except httpx.HTTPStatusError as e:
-            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to fetch contacts: {e}")
+            if e.response.status_code == 401:
+                return templates.TemplateResponse("Unauthorized.html", {"request": request})
+            else:
+                raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to fetch contacts: {e}")
 
 #############################
 #     return RedirectResponse(url="/contacts", headers=headers)

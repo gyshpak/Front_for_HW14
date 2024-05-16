@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration Success</title>
+</head>
+<body>
+    <h1>User Registration Successful!</h1>
+    <p>Here are the details of the registered user:</p>
+    <ul>
+        <li><strong>User ID:</strong> {{ data.id }}</li>
+        <li><strong>Name:</strong> {{ data.name }}</li>
+        <li><strong>Email:</strong> {{ data.email }}</li>
+        <li><strong>Phone:</strong> {{ data.phone }}</li>
+        <li><strong>Birthday:</strong> {{ data.birthday }}</li>
+        {% if data.avatar %}
+        <li><strong>Avatar:</strong> <img src="{{ data.avatar }}" alt="Avatar"></li>
+        {% endif %}
+        <form action="/" method="get">
+        <button type="submit">Return to Main Page</button>
+    </form>
+    </ul>
+</body>
+</html>
